@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GPS 3D · Editor</title>
+  <style>html,body{background:transparent!important;color-scheme:normal}[hidden]{display:none!important}</style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="destination" class="world-marker" hidden aria-hidden="true">
+    <div class="marker-orbit"></div><div class="marker-card"><span class="marker-eyebrow">PONTO DE CHEGADA</span><div class="distance"><span id="distance">192</span><small id="unit">M</small></div><div id="destination-label">DESTINO</div></div><div class="marker-tip"></div><div class="marker-stem"></div>
+  </div>
+  <main id="panel" data-theme="dark" hidden aria-labelledby="title">
+    <header class="studio-header">
+      <div class="brand-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m7 23 9-17 9 17-9-5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+      <div class="brand"><h1 id="title">GPS 3D</h1><p>Personalize sua rota</p></div>
+      <div class="header-actions"><div class="theme-picker" role="group" aria-label="Tema do editor"><button data-theme-choice="dark" aria-pressed="true"><span aria-hidden="true">◐</span>Escuro</button><button data-theme-choice="light" aria-pressed="false"><span aria-hidden="true">○</span>Branco</button><button data-theme-choice="gray" aria-pressed="false"><span aria-hidden="true">◒</span>Cinza</button></div><button id="close" class="icon-button" aria-label="Fechar editor">×</button></div>
+    </header>
+    <div class="studio-body">
+      <aside class="preview-side">
+        <div class="preview-heading"><div><h2>Prévia</h2><p>Porsche 911 GT3 RS</p></div><div class="preview-view-picker" role="group" aria-label="Visualização do carro"><button data-preview-view="route" aria-pressed="true">Rota 3D</button><button data-preview-view="model" aria-pressed="false">Carro 3D</button></div></div>
+        <div class="preview-stage"><div id="car-viewport" aria-label="Cena 3D com estrada, setas e Porsche 911 GT3 RS"><img id="car-fallback" alt="Porsche 911 GT3 RS renderizada a partir do modelo 3D" draggable="false"><canvas id="car-webgl" aria-label="Cena 3D: arraste para girar e role para aproximar"></canvas></div><button id="preview-reset-camera" class="preview-reset-camera" aria-label="Restaurar câmera" title="Restaurar câmera">↺</button><button id="preview-pause" class="preview-pause" aria-label="Pausar prévia">Ⅱ</button><div class="preview-caption">Prévia ilustrativa</div></div>
+        <div class="preview-meta"><div><span>Seta</span><strong id="preview-style">Chevron</strong></div><div><span>Qualidade</span><strong id="preview-quality">Equilibrada</strong></div></div>
+      </aside>
+      <section class="editor-side" aria-label="Editor da rota">
+        <nav class="tabs" aria-label="Categorias do editor" role="tablist"><button id="tab-appearance" class="active" role="tab" aria-selected="true" aria-controls="appearance" data-tab="appearance">Visual</button><button id="tab-motion" role="tab" aria-selected="false" aria-controls="motion" data-tab="motion" tabindex="-1">Efeitos</button><button id="tab-advanced" role="tab" aria-selected="false" aria-controls="advanced" data-tab="advanced" tabindex="-1">Ajustes</button></nav>
+        <div class="editor-scroll">
+          <section id="appearance" role="tabpanel" aria-labelledby="tab-appearance">
+            <div class="section-label"><h3>Estilo pronto</h3><button id="profiles-open" class="text-button">Meus estilos</button></div><div class="preset-grid" id="presets" aria-label="Estilos prontos"></div>
+            <div class="section-label"><h3>Seta</h3></div><div id="shapes" class="shape-grid" aria-label="Formato das setas"></div>
+            <div class="section-label"><h3>Cor</h3><label class="mini-toggle">Degradê<input id="gradient" type="checkbox" role="switch"><span class="switch"></span></label></div>
+            <div class="color-grid"><div class="color-field"><input type="color" id="color" aria-label="Cor principal"><div><label for="color-hex">Principal</label><input id="color-hex" maxlength="7" aria-label="Cor principal hexadecimal" spellcheck="false"></div></div><div class="color-field" id="secondary-field"><input type="color" id="secondaryColor" aria-label="Cor secundária"><div><label for="secondaryColor-hex">Secundária</label><input id="secondaryColor-hex" maxlength="7" aria-label="Cor secundária hexadecimal" spellcheck="false"></div></div></div>
+            <div id="palette" class="palette" aria-label="Cores rápidas"></div>
+            <div class="control-grid" id="visual-ranges"></div>
+            <details class="detail-group"><summary>Ajustar largura e comprimento</summary><div class="control-grid" id="shape-ranges"></div></details>
+          </section>
+          <section id="motion" role="tabpanel" aria-labelledby="tab-motion" hidden>
+            <div class="section-label"><h3>Efeitos da rota</h3><span>Ative o que preferir</span></div><div id="effects" class="effects-grid"></div>
+            <div class="control-grid" id="motion-ranges"></div>
+            <details class="detail-group"><summary>Ajustar o desaparecimento</summary><p class="field-note">As setas se dissolvem quando o carro passa.</p><div class="control-grid" id="fade-ranges"></div></details>
+          </section>
+          <section id="advanced" role="tabpanel" aria-labelledby="tab-advanced" hidden>
+            <div class="section-label"><h3>Navegação</h3></div>
+            <div class="settings-group"><label class="setting-row"><strong>Setas na estrada</strong><input id="road" type="checkbox" role="switch"><span class="switch"></span></label><label class="setting-row"><strong>Acompanhar a faixa do carro</strong><input id="laneAssist" type="checkbox" role="switch"><span class="switch"></span></label><label class="setting-row"><strong>Mostrar destino</strong><input id="destination-enabled" type="checkbox" role="switch"><span class="switch"></span></label></div>
+            <div class="section-label"><h3>Desempenho</h3></div><div class="select-row"><label for="quality">Qualidade</label><select id="quality"><option value="low">Leve</option><option value="balanced">Equilibrada</option><option value="ultra">Ultra</option></select></div><p id="quality-note" class="field-note"></p><div id="advanced-ranges"></div>
+            <details class="detail-group"><summary>Posição das setas</summary><div class="control-grid" id="position-ranges"></div></details>
+            <details class="detail-group"><summary>Marcador do destino</summary><div class="select-row"><label for="destinationStyle">Estilo</label><select id="destinationStyle"><option value="beacon">Farol</option><option value="minimal">Minimalista</option><option value="orbit">Órbita</option></select></div><div id="marker-ranges"></div></details>
+            <div class="transfer-row"><button id="export" class="secondary-button">Exportar estilo</button><button id="import" class="secondary-button">Importar estilo</button></div>
+          </section>
+        </div>
+        <footer class="editor-footer"><div class="history"><button id="undo" class="icon-button" aria-label="Desfazer" disabled>↶</button><button id="redo" class="icon-button" aria-label="Refazer" disabled>↷</button><button id="reset" class="text-button">Restaurar</button></div><span id="status" role="status" aria-live="polite">Salvo</span><span class="escape-hint"><kbd>ESC</kbd> fechar</span></footer>
+      </section>
+    </div>
+    <section id="modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="modal-header"><h2 id="modal-title">Meus estilos</h2><button id="modal-close" class="icon-button" aria-label="Fechar diálogo">×</button></div><div id="profiles-view"><p class="field-note">Salve até 8 estilos neste dispositivo.</p><div class="profile-create"><input id="profile-name" maxlength="28" placeholder="Nome do estilo" aria-label="Nome do estilo"><button id="profile-save" class="primary-button">Salvar</button></div><div id="profile-list"></div></div><div id="transfer-view" hidden><p id="transfer-hint" class="field-note"></p><textarea id="transfer-code" rows="10" spellcheck="false" aria-label="Código do estilo"></textarea><div class="transfer-row"><button id="transfer-submit" class="primary-button">Aplicar</button></div></div><p id="modal-status" role="status" aria-live="polite"></p></div></section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+Porsche 992 GT3 RS 2024 | www.vecarz.com
+Author: vecarz (https://sketchfab.com/heynic)
+Declared license: CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+Source: https://sketchfab.com/3d-models/porsche-992-gt3-rs-2024-wwwvecarzcom-68672d105f2c4e3b8550a741e8836b0c
+Archive supplied by user: porsche-992-gt3-rs-2024.zip
+Adaptations: geometry budget, texture resolution, scale/orientation and animated wheel pivots.
+Adapted model retains the declared CC-BY-NC-SA-4.0 license.
